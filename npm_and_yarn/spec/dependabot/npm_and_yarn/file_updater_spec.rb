@@ -2350,6 +2350,14 @@ RSpec.describe Dependabot::NpmAndYarn::FileUpdater do
                   "170c88460ac69639b57dfa03cfea0dadbf3c2bad")
         end
       end
+
+      context "with non-standard indentation" do
+        it "preserves indentation in the package-lock.json" do
+          expect(updated_npm_lock.content).to eq(
+            fixture("npm_lockfiles", "package_lock_preserved_indentation.json")
+          )
+        end
+      end
     end
 
     #######################

@@ -17,6 +17,7 @@
 const fs = require("fs");
 const path = require("path");
 const npm = require("npm");
+const detectIndent = require("detect-indent");
 const installer = require("npm/lib/install");
 const { muteStderr, runAsync } = require("./helpers.js");
 
@@ -76,13 +77,15 @@ async function updateDependencyFiles(directory, dependencies, lockfileName) {
   try {
     await runAsync(initialInstaller, initialInstaller.run, []);
 
-    const intermediaryLockfile = JSON.parse(readFile(lockfileName));
+    const lockfile = readFile(lockfileName);
+    const indent = detectIndent(lockfile).indent || "  ";
+    const intermediaryLockfile = JSON.parse(lockfile);
     const updatedIntermediaryLockfile = removeInvalidGitUrls(
       intermediaryLockfile
     );
     fs.writeFileSync(
       path.join(directory, lockfileName),
-      JSON.stringify(updatedIntermediaryLockfile, null, 2)
+      JSON.stringify(updatedIntermediaryLockfile, null, indent)
     );
 
     await runAsync(cleanupInstaller, cleanupInstaller.run, []);
