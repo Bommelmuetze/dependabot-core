@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@dependabot/yarn-lib": "^1.15.2",
-    "npm": "^6.9.0",
+    "npm": "^6.13.0",
     "semver": "^6.0.0"
   },
   "devDependencies": {
